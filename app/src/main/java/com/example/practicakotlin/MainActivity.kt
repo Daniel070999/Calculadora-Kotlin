@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import java.io.IOException
+import java.text.DecimalFormat
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         val btn8 = findViewById<Button>(R.id.btn8) as Button
         val btn9 = findViewById<Button>(R.id.btn9) as Button
         val btn0 = findViewById<Button>(R.id.btn0) as Button
+        val btnpunto = findViewById<Button>(R.id.btnpunto) as Button
 
         val btnsuma = findViewById<Button>(R.id.btnsuma) as Button
         val btnresta = findViewById<Button>(R.id.btnresta) as Button
@@ -34,9 +38,41 @@ class MainActivity : AppCompatActivity() {
         val txtviewOperation1 = findViewById<Button>(R.id.txtviewOperation1) as TextView
         val txtviewOperation = findViewById<Button>(R.id.txtviewOperation) as TextView
         val txtviewOperation2 = findViewById<Button>(R.id.txtviewOperation2) as TextView
+        val txtviewResultado = findViewById<Button>(R.id.txtviewResultado) as TextView
 
         btnigual.setOnClickListener {
-
+            if (txtviewOperation1.text.contains("--") || txtviewOperation.text.contains("--") || txtviewOperation2.text.contains("--")){
+                Toast.makeText(applicationContext, "Ingrese una operación válida", Toast.LENGTH_SHORT).show()
+            }else{
+                if (txtviewOperation.text.contains("+")){
+                    val df = DecimalFormat("#.##")
+                    val data1mod = df.format(data1.toFloat())
+                    val data2mod = df.format(data2.toFloat())
+                    val resultado = data1mod.toFloat() + data2mod.toFloat()
+                    txtviewResultado.text = resultado.toString()
+                }
+                if (txtviewOperation.text.contains("-")){
+                    val df = DecimalFormat("#.##")
+                    val data1mod = df.format(data1.toFloat())
+                    val data2mod = df.format(data2.toFloat())
+                    val resultado = data1mod.toFloat() - data2mod.toFloat()
+                    txtviewResultado.text = resultado.toString()
+                }
+                if (txtviewOperation.text.contains("*")){
+                    val df = DecimalFormat("#.##")
+                    val data1mod = df.format(data1.toFloat())
+                    val data2mod = df.format(data2.toFloat())
+                    val resultado = data1mod.toFloat() * data2mod.toFloat()
+                    txtviewResultado.text = resultado.toString()
+                }
+                if (txtviewOperation.text.contains("/")){
+                    val df = DecimalFormat("#.##")
+                    val data1mod = df.format(data1.toFloat())
+                    val data2mod = df.format(data2.toFloat())
+                    val resultado = data1mod.toFloat() / data2mod.toFloat()
+                    txtviewResultado.text = resultado.toString()
+                }
+            }
         }
 
         btnlimpiar.setOnClickListener {
@@ -45,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             txtviewOperation2.text = "--"
             data1 = ""
             data2 = ""
+            txtviewResultado.text = "Resultado"
         }
 
         btnsuma.setOnClickListener {
@@ -148,6 +185,21 @@ class MainActivity : AppCompatActivity() {
             }else{
                 data2 += btn0.text
                 txtviewOperation2.text = data2
+            }
+        }
+        btnpunto.setOnClickListener {
+            if (txtviewOperation.text.contains("--")){
+                if (txtviewOperation1.text.contains(".")){
+                }else{
+                    data1 += btnpunto.text
+                    txtviewOperation1.text = data1
+                }
+            }else{
+                if (txtviewOperation2.text.contains(".")){
+                }else{
+                    data2 += btnpunto.text
+                    txtviewOperation2.text = data2
+                }
             }
         }
     }
