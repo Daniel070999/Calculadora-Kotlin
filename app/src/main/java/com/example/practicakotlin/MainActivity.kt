@@ -7,6 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import java.io.IOException
 import java.text.DecimalFormat
+import kotlin.math.pow
 import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         val btnresta = findViewById<Button>(R.id.btnresta) as Button
         val btnmultiplicacion = findViewById<Button>(R.id.btnmultiplicacion) as Button
         val btndivision = findViewById<Button>(R.id.btndivision) as Button
+        val btnporcentaje = findViewById<Button>(R.id.btnporcentaje) as Button
+        val btnfactorial = findViewById<Button>(R.id.btnfactorial) as Button
 
         val btnlimpiar = findViewById<Button>(R.id.btnlimpiar) as Button
         val btnigual = findViewById<Button>(R.id.btnigual) as Button
@@ -72,6 +75,44 @@ class MainActivity : AppCompatActivity() {
                     val resultado = data1mod.toFloat() / data2mod.toFloat()
                     txtviewResultado.text = resultado.toString()
                 }
+            }
+        }
+
+        btnporcentaje.setOnClickListener {
+            if (txtviewOperation1.text.contains("--")){
+                Toast.makeText(applicationContext, "Por favor, ingrese un valor primero", Toast.LENGTH_SHORT).show()
+            }else if(txtviewOperation2.text != "--") {
+                Toast.makeText(
+                    applicationContext,
+                    "Esta operación no está permitida",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else{
+                val df = DecimalFormat("#.##")
+                val data1mod = df.format(data1.toFloat())
+                val resultado = (data1mod.toFloat() * 0.01)
+                txtviewResultado.text = resultado.toString()
+                txtviewOperation.text = "% = "
+                txtviewOperation2.text = resultado.toString()
+            }
+        }
+
+        btnfactorial.setOnClickListener {
+            if (txtviewOperation1.text.contains("--")){
+                Toast.makeText(applicationContext, "Por favor, ingrese un valor primero", Toast.LENGTH_SHORT).show()
+            }else if(txtviewOperation2.text != "--") {
+                Toast.makeText(
+                    applicationContext,
+                    "Esta operación no está permitida",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else{
+                val df = DecimalFormat("#.##")
+                val data1mod = df.format(data1.toFloat())
+                val resultado = factorial(data1mod.toFloat())
+                txtviewResultado.text = resultado.toString()
+                txtviewOperation.text = "! = "
+                txtviewOperation2.text = resultado.toString()
             }
         }
 
@@ -203,4 +244,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-}
+    fun factorial(numero: Float): Float {
+        if (numero > 1){
+            return numero * factorial(numero - 1)
+        } else {
+            return numero
+        }
+    }
+
+    }
